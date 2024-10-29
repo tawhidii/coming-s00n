@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coming Soon</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #0a0a0a;
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+        }
+
+        .container {
+            text-align: center;
+            color: white;
+        }
+
+        .glitch-text {
+            font-size: 5rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            position: relative;
+            text-shadow: 0.05em 0 0 #00fffc,
+                         -0.025em -0.05em 0 #fc00ff,
+                         0.025em 0.05em 0 #fffc00;
+        }
+
+        .glitch-text span {
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .subtitle {
+            font-size: 1.5rem;
+            margin-top: 2rem;
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="glitch-text">
+            Coming Soon
+            <span class="glitch-text" aria-hidden="true">Coming Soon</span>
+            <span class="glitch-text" aria-hidden="true">Coming Soon</span>
+        </h1>
+        <div class="subtitle">Something awesome is in the works</div>
+    </div>
+
+    <script>
+        // Glitch effect animation
+        const glitchText = document.querySelectorAll('.glitch-text');
+
+        function createGlitchTimeline() {
+            const tl = gsap.timeline({
+                repeat: -1,
+                repeatDelay: 2
+            });
+
+            glitchText.forEach((text, index) => {
+                if (index !== 0) {
+                    tl.to(text, {
+                        duration: 0.1,
+                        skewX: 70,
+                        ease: "power4.inOut",
+                        x: 10,
+                        y: index === 1 ? -5 : 5,
+                        opacity: 0.6,
+                        scale: 1.04
+                    })
+                    .to(text, {
+                        duration: 0.04,
+                        skewX: 0,
+                        ease: "power4.inOut",
+                        x: -10,
+                        y: 0,
+                        opacity: 0.1,
+                        scale: 1
+                    })
+                    .to(text, {
+                        duration: 0.04,
+                        skewX: -20,
+                        ease: "power4.inOut",
+                        x: 0,
+                        y: index === 1 ? 5 : -5,
+                        opacity: 0.3,
+                        scale: 0.96
+                    })
+                    .to(text, {
+                        duration: 0.04,
+                        skewX: 0,
+                        ease: "power4.inOut",
+                        x: 0,
+                        y: 0,
+                        opacity: 0,
+                        scale: 1
+                    });
+                }
+            });
+
+            return tl;
+        }
+
+        // Create and play the glitch animation
+        createGlitchTimeline();
+
+        // Subtitle fade in animation
+        gsap.from('.subtitle', {
+            opacity: 0,
+            y: 20,
+            duration: 1,
+            delay: 0.5
+        });
+    </script>
+</body>
+</html>
